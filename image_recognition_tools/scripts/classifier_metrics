@@ -308,14 +308,20 @@ plt.xlabel('Threshold ($t$)')
 plt.title('Threshold vs. True & False positive rate')
 # plt.legend(loc="lower right")
 
-# Compute confusion matrix
-cnf_matrix = confusion_matrix(y_true_labels, y_predicted_classes)
-# np.set_printoptions(precision=2)
+# Compute weighted confusion matrix. All class weights are summed up
+weighted_confusion = np.zeros((n_classes, n_classes))
+for row_index, row in enumerate(y_predicted_score):
+    ground_truth = y_true_labels[row_index]
+    gt_index = ordered_classes.index(ground_truth)
 
-# Plot normalized confusion matrix
+    # This loop can probably done quicker but this is very simple and understandable
+    for cls_index, cls in enumerate(ordered_classes):
+        weighted_confusion[gt_index][cls_index] += row[cls_index]
+
+# Plot weighted confusion matrix
 plt.subplot(2, 2, 4)
-plot_confusion_matrix(cnf_matrix, classes=ordered_classes, normalize=True,
-                      title='Normalized confusion matrix')
+plot_confusion_matrix(weighted_confusion, classes=ordered_classes, normalize=True,
+                      title='Weighted, normalized confusion matrix')
 
 if args.output:
   plt.savefig(args.output)
