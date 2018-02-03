@@ -11,7 +11,7 @@
 std::shared_ptr<OpenposeWrapper> g_openpose_wrapper;
 std::string g_save_images_folder = "";
 bool g_publish_to_topic = false;
-std::shared_ptr<diagnostic_updater::Updater> g_diagnostic_updater;
+std::shared_ptr<diagnostic_updater::Updater> g_openpose_diagnostic_updater;
 ros::Publisher g_pub;
 
 //!
@@ -166,12 +166,12 @@ int main(int argc, char** argv)
     g_pub = nh.advertise<sensor_msgs::Image>("result_image", 1);
   }
 
-  g_diagnostic_updater = std::shared_ptr<diagnostic_updater::Updater>(new diagnostic_updater::Updater());
+  g_openpose_diagnostic_updater = std::shared_ptr<diagnostic_updater::Updater>(new diagnostic_updater::Updater());
 
   diagnostic_updater::Heartbeat *heartbeat = new diagnostic_updater::Heartbeat();
-  g_diagnostic_updater->add(*heartbeat);
+  g_openpose_diagnostic_updater->add(*heartbeat);
 
-//  local_nh.createTimer(ros::Duration(1.0), []{g_diagnostic_updater->update();});
+//  local_nh.createTimer(ros::Duration(1.0), []{g_openpose_diagnostic_updater->update();});
 
   ros::spin();
 
