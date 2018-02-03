@@ -22,7 +22,6 @@ private:
     ros::NodeHandle nh_;
 
     double expected_servicecall_frequency_;
-    diagnostic_updater::FrequencyStatus* service_diagnostic_;
     ros::Timer update_timer_;
 
     void updateCallback(const ros::TimerEvent& te);
