@@ -9,7 +9,7 @@
 std::shared_ptr<OpenposeWrapper> g_openpose_wrapper;
 std::string g_save_images_folder = "";
 bool g_publish_to_topic = false;
-OpenposeDiagnosticUpdater* openpose_diagnostic_updater;
+std::shared_ptr<OpenposeDiagnosticUpdater> g_openpose_diagnostic_updater;
 ros::Publisher g_pub;
 
 //!
@@ -164,7 +164,7 @@ int main(int argc, char** argv)
     g_pub = nh.advertise<sensor_msgs::Image>("result_image", 1);
   }
 
-  openpose_diagnostic_updater = new OpenposeDiagnosticUpdater();
+  g_openpose_diagnostic_updater = std::shared_ptr<OpenposeDiagnosticUpdater>(new OpenposeDiagnosticUpdater());
 
   ros::spin();
 
